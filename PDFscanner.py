@@ -1,20 +1,19 @@
-import fitz 
-import pytesseract
-from pdf2image import convert_from_path
 import cv2
 import numpy as np
-import tiktoken
+import pymupdf
+import pytesseract
+from pdf2image import convert_from_path
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 def is_digitalized(pdf_path):
-    pdf_document = fitz.open(pdf_path)
+    pdf_document = pymupdf.open(pdf_path)
     first_page = pdf_document.load_page(0)
     text = first_page.get_text()
     return bool(text.strip())
 
 def extract_text_from_pdf(pdf_path):
-    pdf_document = fitz.open(pdf_path)
+    pdf_document = pymupdf.open(pdf_path)
     num_pages = pdf_document.page_count
     text_by_page = []
 
@@ -69,9 +68,10 @@ def split_text_into_chunks(text, max_chars=2048):
     
     return chunks
 
+#Prueba
 '''
 texts = []
-pdf_path = "67403708.pdf"
+pdf_path = "segunda-guerra-mundial-1b.pdf"
 text_by_page = main(pdf_path)
 for i, page_text in enumerate(text_by_page):
     print(f"Página {i+1}:")
