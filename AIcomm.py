@@ -45,3 +45,9 @@ def handle_conversation(user_input):
     except Exception as e:
         print(f"Error al procesar la solicitud: {e}")
         return None
+
+#Bucle para solicitar y procesar 4 prompts
+#for i in range(4):
+#    user_input = input(f"Ingresa el prompt {i+1}: ")
+#    response = handle_conversation(user_input)
+#    print("\nRespuesta:", response, "\n")
