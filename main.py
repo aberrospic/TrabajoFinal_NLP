@@ -1,4 +1,3 @@
-import argparse
 import os
 
 import AIcomm
@@ -30,23 +29,15 @@ def split_text_into_chunks(text, max_chars=2047):
     
     return chunks
 
-def main():
+def main(pdf_path):
     """
     Función principal que procesa un archivo PDF y genera resúmenes utilizando IA.
     """
-    # Configurar el parser de argumentos
-    parser = argparse.ArgumentParser(description='Procesar un archivo PDF.')
-    parser.add_argument('pdf_path', type=str, help='Ruta del archivo PDF a procesar.')
-
-    # Parsear los argumentos
-    args = parser.parse_args()
-
     # Verificar si el archivo existe
-    if os.path.isfile(args.pdf_path):
+    if os.path.isfile(pdf_path):
         texts = ""
         # Extraer texto del PDF
-        text_by_page = pdf_scanner_main(args.pdf_path)
-        
+        text_by_page = pdf_scanner_main(pdf_path)
         # Imprimir el texto de cada página y concatenarlo
         for i, page_text in enumerate(text_by_page):
             print(f"Página {i+1}:")
@@ -55,9 +46,9 @@ def main():
             texts += page_text
             print("\n" + "-"*50 + "\n")
         
-        # Dividir el texto en chunks
+        # Dividir el texto en chunks    
         text_chunks = split_text_into_chunks(texts, max_chars=2047)   
-        
+            
         # Procesar cada chunk con la IA
         for text in text_chunks:
             user_input = "Hazme un resumen de este texto: "
@@ -66,9 +57,10 @@ def main():
                 break
             response = AIcomm.handle_conversation(user_input)
             if response:
-                print("\nAsistente: " + response + "\n")
+                print("\nAsistente: " + response+"\n")
     else:
         print("La ruta proporcionada no es un archivo válido.")
 
 if __name__ == "__main__":
-    main()
+    pdf_path = "segunda-guerra-mundial-1b.pdf"
+    main(pdf_path)
